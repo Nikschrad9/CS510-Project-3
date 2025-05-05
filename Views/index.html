@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Syntax Tree Viewer</title>
+
+    <!-- Link to jsSyntaxTree CSS -->
+    <link rel="stylesheet" href="/lib/default.css">
+</head>
+<body>
+    <h1>Syntax Tree Demo</h1>
+
+    <!-- Container where tree will be drawn -->
+    <div id="treeContainer"></div>
+
+    <!-- Link to jsSyntaxTree JS -->
+    <script src="/lib/jsSyntaxTree.js"></script>
+
+    <script>
+        // Example tree data
+        const tree = {
+            root: "S",
+            children: [
+                { root: "NP", children: [{ root: "Det", children: [{ root: "The" }] }, { root: "Noun", children: [{ root: "cat" }] }] },
+                { root: "VP", children: [{ root: "Verb", children: [{ root: "sat" }] }, { root: "PP", children: [{ root: "on" }, { root: "the" }, { root: "mat" }] }] }
+            ]
+        };
+
+        // Draw the tree
+        const container = document.getElementById('treeContainer');
+        const treeSvg = new SyntaxTree(tree);
+        container.appendChild(treeSvg.render());
+    </script>
+</body>
+</html>
