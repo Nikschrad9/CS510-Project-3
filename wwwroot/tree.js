@@ -21,7 +21,7 @@ export default class Tree {
 
   resizeCanvas(w, h) {
     this.canvas.resize(w, h);
-    this.canvas.translate(0, canvas.fontsize / 2);
+    this.canvas.translate(0, this.fontsize / 2);
   }
 
   draw(syntax_tree) {
@@ -36,16 +36,20 @@ export default class Tree {
       moveParentsDown(drawables);
     if (this.subscript)
       calculateAutoSubscript(drawables);
-    const has_arrow =
-        calculateDrawablePositions(this.canvas, drawables, this.vscaler);
+    const has_arrow = calculateDrawablePositions(this.canvas, drawables, this.vscaler);
     const arrowSet = makeArrowSet(drawables, this.fontsize);
-    const arrowScaler =
-        Math.pow((Math.sqrt(arrowSet.maxBottom) / arrowSet.maxBottom), 1 / 50);
+    const arrowScaler = Math.pow((Math.sqrt(arrowSet.maxBottom) / arrowSet.maxBottom), 1 / 50);
 
+    // Calculate a more reasonable canvas height based on actual tree size
+    const treeHeight = (max_depth + 1) * (this.fontsize * this.vscaler * 1.5);
+    const arrowHeight = has_arrow ? arrowSet.maxBottom * arrowScaler : 0;
+    const padding = this.fontsize * 2; // Add some paddingv
+    
     this.resizeCanvas(
-        drawables.width + 1,
-        Math.max((max_depth + 1) * (this.fontsize * this.vscaler * 3),
-                 has_arrow ? arrowSet.maxBottom * arrowScaler : 0));
+      drawables.width + 1,
+      Math.max(treeHeight, arrowHeight) + padding
+    );
+
     drawables.children.forEach(child => this.drawNode(child));
     this.drawArrows(arrowSet.arrows);
   }
@@ -97,7 +101,8 @@ export default class Tree {
           getDrawableCenter(child) - (text_width / 2) + 4, child.top - 3);
     } else {
       this.canvas.line(getDrawableCenter(parent),
-                       parent.top + this.fontsize + 2, getDrawableCenter(child),
+                       parent.top + this.fontsize + 2,
+                       getDrawableCenter(child),
                        child.top - 3);
     }
   }
@@ -224,8 +229,7 @@ function calculateDrawablePositions(canvas, drawable, vscaler,
   }
 
   drawable.children.forEach(child => {
-    child.top =
-        child.depth * (canvas.fontsize * 3 * vscaler) + NODE_PADDING / 2;
+    child.top = child.depth * (canvas.fontsize * 3) + NODE_PADDING; // Restored from 2 to 3
     child.left = offset + parent_offset;
     child.width *= scale;
     const child_has_arrow =

@@ -1,16 +1,15 @@
 <!DOCTYPE html>
-<title>jsSyntaxTree</title>
+<title>MicroML AST Visualizer</title>
 <link rel="stylesheet" type="text/css" href="default.css" />
 <link rel="manifest" href="syntaxtree.webmanifest" />
 <script type="module" src="syntaxtree.js" async></script>
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name='viewport' content='width=device-width, initial-scale=1' />
-<meta name="author" content="Andre Eisenbach" />
-<meta name="description"
-  content="jsSyntaxtree - a syntax tree generator for linguists. Draw syntax trees from labelled bracket notation phrases and include them into your assignment/homework." />
-<meta name="keywords" content="syntax tree, linguists, homework, labelled bracket notation" />
+<meta name="author" content="CS510 Project" />
+<meta name="description" content="MicroML AST Visualizer - Generate abstract syntax trees for MicroML code" />
+<meta name="keywords" content="MicroML, AST, syntax tree, functional programming" />
 
-<h1>jsSyntaxTree</h1>
+<h1>MicroML AST Visualizer</h1>
 
 <div id="options">
   <select id="font">
@@ -40,23 +39,38 @@
     <option value="1">Leaves aligned</option>
     <option value="2">Bottom aligned</option>
   </select>
+  <label for="spacing">Spacing:</label>
   <input type="range" id="spacing" min="75" max="150" value="100" />
 </div>
 
 <div id="input">
-  <h2>Phrase (labelled bracket notation)</h2>
-  <textarea rows="5" id="code">[S [NP jsSyntaxTree][VP [V creates][NP nice syntax trees ->1]]]</textarea>
+  <h2>MicroML Code</h2>
+  <textarea rows="10" id="code">let add x = x + 1 
+in add 42 
+end</textarea>
   <span id="parse-error"></span>
 </div>
 
-<div id="tree"><canvas id="canvas" width="100" height="100"></canvas></div>
+<div id="examples">
+  <h3>Example MicroML Programs:</h3>
+  <button onclick="setExample(1)">Simple Function</button>
+  <button onclick="setExample(2)">Factorial</button>
+  <button onclick="setExample(3)">Fibonacci</button>
+</div>
 
-<div id="tip"></div>
+<div id="tree"><canvas id="canvas" width="800" height="600"></canvas></div>
+
+<div id="tip">
+  <p>Enter MicroML code above. The AST will update automatically.</p>
+  <p>Examples:</p>
+  <ul>
+    <li>Simple function: <code>let add x = x + 1 in add 42 end</code></li>
+    <li>Recursion: <code>let fact n = if n = 0 then 1 else n * fact(n-1) in fact 5 end</code></li>
+  </ul>
+</div>
 
 <footer>
-  &copy; 2003-2022 IronCreek Software<br />
-  Idea and linguistic guidance - <b>Mei Eisenbach</b><br />
-  Coding &amp; design - <b>Andr&eacute; Eisenbach</b><br />
-  <a href="https://github.com/int2str/jssyntaxtree">https://github.com/int2str/jssyntaxtree</a>
+  <p>CS510 Project 3 - MicroML AST Visualizer</p>
+  <p>Uses <a href="https://github.com/int2str/jssyntaxtree">jsSyntaxTree</a> for visualization</p>
   <div id="version">&nbsp;</div>
 </footer>
